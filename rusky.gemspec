@@ -3,6 +3,22 @@ lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require "rusky/version"
 
+Gem.post_install do |installer|
+  require "rusky"
+
+  Rusky.install
+  puts installer.inspect
+  puts installer.instance_variable_get(:gem_dir)
+end
+
+Gem.pre_uninstall do |uninstaller|
+  require "rusky"
+
+  Rusky.uninstall
+  puts uninstaller.inspect
+  puts installer.instance_variable_get(:gem_dir)
+end
+
 Gem::Specification.new do |spec|
   spec.name          = "rusky"
   spec.version       = Rusky::VERSION
