@@ -2,5 +2,11 @@ require "rusky/version"
 require "rusky/callback"
 
 module Rusky
-  # Your code goes here...
+  def self.install
+    Rusky::Callback.install
+  end
+
+  def self.uninstall
+    Rusky::Callback.uninstall
+  end
 end
