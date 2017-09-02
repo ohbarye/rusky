@@ -29,15 +29,9 @@ module Rusky
         task "#{rake_task_name}" do
           commands = @yaml[hook_name]
 
-          begin
-            commands.each do |command|
-              puts "rusky > #{command}"
-              system(command)
-              puts
-            end
-          rescue => e
-            puts e.inspect
-            fail
+          commands.each do |command|
+            puts "rusky > #{command}"
+            system(command) || raise("#{command} failed")
           end
         end
       end

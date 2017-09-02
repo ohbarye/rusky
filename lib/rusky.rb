@@ -42,6 +42,9 @@ module Rusky
     HOOKS.map do |hook_name|
       create_hook(hook_name, hook_path, cwd)
     end
+
+    # TODO create Rusky file
+    # TODO add `require` into Rakefile?
   rescue => e
     puts "unexpected error happened: #{e.inspect}"
   end
@@ -49,6 +52,9 @@ module Rusky
   def self.create_hook(hook_name, hook_path, cwd)
     script = get_hook_script(hook_name, cwd)
     filename = File.join(hook_path, hook_name)
+
+    # TODO check if it's okay to overwrite
+
     write(filename, script)
   end
 
@@ -70,7 +76,7 @@ module Rusky
       #!/bin/sh
       #rusky #{Rusky::VERSION}
       has_hook_script () {
-        [ -f .rusky ] && cat .rusky | grep -q "\\"$1\\"[[:space:]]*:"
+        [ -f .rusky ] && cat .rusky | grep -q "$1:"
       }
       cd "#{cwd}"
       # Check if #{hook_name} script is defined, skip if not
@@ -79,11 +85,12 @@ module Rusky
       # Export Git hook params
       export GIT_PARAMS="$*"
       # Run command
+      echo "rusky > #{hook_name} Git hook is running"
       echo "rusky > bundle exec rake #{rake_task_name}"
       echo
       bundle exec rake #{rake_task_name} || {
         echo
-        echo "rusky > #{hook_name} hook failed #{no_verify_message}"
+        echo "rusky > #{hook_name} Git hook failed #{no_verify_message}"
         exit 1
       }
     EOS
@@ -91,10 +98,6 @@ module Rusky
 
 
   def self.uninstall
-    rusky_dir = File.expand_path(File.dirname($0))
-    puts 'File.expand_path'
-    puts rusky_dir
-    cwd = `lsof -p #{Process.ppid} | grep cwd`.split(" ").last
-    puts cwd
+    # TODO uninstall
   end
 end

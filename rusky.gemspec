@@ -16,11 +16,11 @@ end
 Gem::Specification.new do |spec|
   spec.name          = "rusky"
   spec.version       = Rusky::VERSION
-  spec.authors       = ["ohbarye"]
+  spec.authors       = ["Masato Ohba"]
   spec.email         = ["over.rye@gmail.com"]
 
-  spec.summary       = "Add githooks easily"
-  spec.description   = "Prevents bad commit or push (git hooks, pre-commit/precommit, pre-push/prepush, post-merge/postmerge and all that stuff...)"
+  spec.summary       = "Add Git hooks easily"
+  spec.description   = "Rusky helps you to manage Git hooks easily."
   spec.homepage      = "https://github.com/ohbarye/rusky"
   spec.license       = "MIT"
 
