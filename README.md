@@ -1,6 +1,8 @@
 # Rusky
 
-Rusky helps you to manage Git hooks easily.
+Rusky is a lightweight library which helps you to manage Git hooks easily. Once you set up Rusky, it would be beneficial for all your team.
+
+This library is inspired an awesome npm library, [husky](https://github.com/typicode/husky). So Rusky = Ruby + husky.
 
 If you don't know Git hooks well, [the official document](https://git-scm.com/docs/githooks) would help you.
 
@@ -26,7 +28,7 @@ $ gem install rusky
 
 ## Usage
 
-1. Add the following line into your Rakefile. It defines rake tasks to be executed on Git hook. The task names are 'rusky:#{git_hook_name}'.
+1. Add the following line into your Rakefile. It defines rake tasks to be executed on Git hook. The task names are `"rusky:#{git_hook_name}"`.
 
 ```ruby
 require "rusky/task"
