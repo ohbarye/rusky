@@ -1,0 +1,3 @@
+pre-commit:
+  - echo "1. hello from rusky on pre-commit"
+  - bundle exec rspec
