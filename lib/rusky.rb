@@ -43,7 +43,7 @@ module Rusky
       create_hook(hook_name, hook_path, cwd)
     end
 
-    # TODO create Rusky file
+    # TODO create .rusky file
     # TODO add `require` into Rakefile?
   rescue => e
     puts "unexpected error happened: #{e.inspect}"
@@ -53,9 +53,16 @@ module Rusky
     script = get_hook_script(hook_name, cwd)
     filename = File.join(hook_path, hook_name)
 
-    # TODO check if it's okay to overwrite
-
-    write(filename, script)
+    if File.exists? filename
+      if File.read(filename).include? 'rusky'
+        # Overwrite
+        write(filename, script)
+      else
+        # Keep user original Git hook
+      end
+    else
+      write(filename, script)
+    end
   end
 
   def self.write(filename, script)
