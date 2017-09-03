@@ -28,10 +28,11 @@ $ gem install rusky
 
 ## Usage
 
-1. Add the following line into your Rakefile. It defines rake tasks to be executed on Git hook. The task names are `"rusky:#{git_hook_name}"`.
+1. Add the following lines into your Rakefile. It defines rake tasks to be executed on Git hook. The task names are `"rusky:#{git_hook_name}"`.
 
 ```ruby
 require "rusky/task"
+Rusky::Task.install
 ```
 
 2. Create `.rusky` file and define what you want on Git hooks as YAML. Keys should be Git hook name. Values should be an array of shell commands. Rusky executes those commands on Git hook.
@@ -50,12 +51,18 @@ You can write your own rake task as a callback of Git hook.
 
 ```ruby
 # Rakefile
+require "rusky/task"
+
 namespace :rusky do
   task :pre_commit do
     # Your awesome task
   end
 end
-````
+
+Rusky::Task.install
+```
+
+NOTE: You have to call `Rusky::Task.install` after your task definition. Otherwise, the task is defined twice. According to the current Rake spec, such a duplicated task does not overwrite a former one, both run when calling the task.  
 
 ## Development
 
