@@ -26,6 +26,8 @@ Or install it yourself as:
 $ gem install rusky
 ```
 
+After installation, Rusky automatically creates git hook scripts in `.git/hooks` directory. It does not remove existing files.
+
 ## Usage
 
 1. Add the following lines into your Rakefile. It defines rake tasks to be executed on Git hook. The task names are `"rusky:#{git_hook_name}"`.
