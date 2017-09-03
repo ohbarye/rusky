@@ -47,8 +47,6 @@ module Rusky
     if !File.exists? rusky_setting_file_path
       File.write(rusky_setting_file_path, '')
     end
-
-    # TODO add `require` into Rakefile?
   rescue => e
     puts "unexpected error happened: #{e.inspect}"
   end
