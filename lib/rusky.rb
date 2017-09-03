@@ -39,7 +39,7 @@ module Rusky
       FileUtils.mkdir_p hook_path
     end
 
-    HOOKS.map do |hook_name|
+    HOOKS.each do |hook_name|
       create_hook(hook_name, hook_path, cwd)
     end
 
@@ -107,6 +107,27 @@ module Rusky
 
 
   def self.uninstall
-    # TODO uninstall
+    cwd = `lsof -p #{Process.ppid} | grep cwd`.split(" ").last
+
+    HOOKS.each do |hook_name|
+      remove_hook(cwd, hook_name)
+    end
+
+    rusky_setting_file_path = File.join(cwd, '.rusky')
+    if File.exists? rusky_setting_file_path
+      File.delete(rusky_setting_file_path)
+      puts "rusky > removing .rusky file..."
+    end
+
+    puts "rusky > uninstall is done. please remove rake tasks for rusky if you have them"
+    puts "rusky > Thank you for using rusky!"
+  end
+
+  def self.remove_hook(cwd, hook_name)
+    filename = File.join(cwd, '.git', 'hooks', hook_name)
+    if File.exists?(filename) && File.read(filename).include?('rusky')
+      puts "rusky > removing #{hook_name} hook script..."
+      File.delete(filename)
+    end
   end
 end
