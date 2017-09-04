@@ -1,4 +1,4 @@
-Gem.post_install do |installer|
+Gem.pre_install do |installer|
   require "rusky"
   Rusky.install
 end
