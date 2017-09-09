@@ -1,4 +1,5 @@
 require 'rusky/version'
+require 'rusky/cli'
 require 'yaml'
 require 'fileutils'
 
