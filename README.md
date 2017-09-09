@@ -30,7 +30,7 @@ After installation, Rusky automatically creates git hook scripts in `.git/hooks`
 
 ## Usage
 
-1. Add the following lines into your Rakefile. It defines rake tasks to be executed on Git hook. The task names are `"rusky:#{git_hook_name}"`.
+1. Add the following lines into your `Rakefile` (or [any other rake file](https://github.com/ruby/rake/blob/68ef9140c11d083d8bb7ee5da5b0543e3a7df73d/lib/rake/application.rb#L41-L46)). It defines rake tasks to be executed on Git hook. The task names are `"rusky:#{git_hook_name}"`.
 
 ```ruby
 require "rusky/task"
