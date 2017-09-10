@@ -46,8 +46,11 @@ module Rusky
 
     rusky_setting_file_path = File.join(cwd, '.rusky')
     if !File.exists? rusky_setting_file_path
+      puts "rusky > creating .rusky file"
       File.write(rusky_setting_file_path, '')
     end
+
+    puts "rusky > install is done. enjoy!"
   rescue => e
     puts "unexpected error happened: #{e.inspect}"
   end
@@ -58,12 +61,13 @@ module Rusky
 
     if File.exists? filename
       if File.read(filename).include? 'rusky'
-        # Overwrite
+        puts "rusky > overwriting #{hook_name} hook script because also existing one is created by rusky."
         write(filename, script)
       else
-        # Keep user original Git hook
+        puts "rusky > skip creating #{hook_name} hook script because existing one is created by you or other tool."
       end
     else
+      puts "rusky > creating #{hook_name} hook script..."
       write(filename, script)
     end
   end
