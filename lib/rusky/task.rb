@@ -1,4 +1,3 @@
-require 'rake'
 require 'yaml'
 require 'rusky'
 
@@ -16,10 +15,7 @@ module Rusky
 
     def install
       setting = Rusky::Setting.new(cwd)
-
-      Rusky::HOOKS.each do |hook_name|
-        Rusky::Hook.new(hook_name, @cwd, setting).define_task
-      end
+      Rusky::Hooks.new(cwd, setting).define_tasks
     end
   end
 end

@@ -1,6 +1,4 @@
-require 'rake'
 require 'yaml'
-require 'fileutils'
 
 module Rusky
   class Setting
