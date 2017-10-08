@@ -40,17 +40,11 @@ module Rusky
       FileUtils.mkdir_p hook_path
     end
 
-    HOOKS.each do |hook_name|
-      Rusky::Hook.new(hook_name, cwd).create
-    end
+    HOOKS.each { |hook_name| Rusky::Hook.new(hook_name, cwd).create }
 
-    rusky_setting_file_path = File.join(cwd, '.rusky')
-    if !File.exists? rusky_setting_file_path
-      puts "rusky > creating .rusky file"
-      File.write(rusky_setting_file_path, '')
-    end
+    Rusky::Setting.new(cwd).create
 
-    puts "rusky > install is done. enjoy!"
+    puts "rusky > installation is done. enjoy!"
   rescue => e
     puts "unexpected error happened: #{e.inspect}"
   end
@@ -58,21 +52,15 @@ module Rusky
   def self.uninstall
     cwd = current_work_directory_name
 
-    HOOKS.each do |hook_name|
-      Rusky::Hook.new(hook_name, cwd).delete
-    end
+    HOOKS.each{ |hook_name|Rusky::Hook.new(hook_name, cwd).delete }
 
-    rusky_setting_file_path = File.join(cwd, '.rusky')
-    if File.exists? rusky_setting_file_path
-      File.delete(rusky_setting_file_path)
-      puts "rusky > removing .rusky file..."
-    end
+    Rusky::Setting.new(cwd).delete
 
     puts "rusky > uninstall is done. please remove rake tasks for rusky if you have them"
     puts "rusky > Thank you for using rusky!"
   end
 
   def self.current_work_directory_name
-    cwd = `lsof -p #{Process.ppid} | grep cwd`.split(" ").last
+    `lsof -p #{Process.ppid} | grep cwd`.split(" ").last
   end
 end

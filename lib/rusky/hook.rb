@@ -6,12 +6,13 @@ module Rusky
   class Hook
     include Rake::DSL if defined? Rake::DSL
 
-    attr_reader :hook_name, :hook_path, :cwd, :filename
+    attr_reader :hook_name, :cwd, :filename, :setting
 
-    def initialize(hook_name, cwd)
+    def initialize(hook_name, cwd, setting=nil)
       @hook_name = hook_name
       @cwd = cwd
       @filename = File.join(@cwd, '.git', 'hooks', hook_name)
+      @setting = setting
     end
 
     def create
@@ -26,6 +27,7 @@ module Rusky
         puts "rusky > creating #{hook_name} hook script..."
         write
       end
+      self
     end
 
     def delete
@@ -33,18 +35,21 @@ module Rusky
         puts "rusky > removing #{hook_name} hook script..."
         File.delete(filename)
       end
+      self
     end
 
     def rake_task_name
       @rake_task_name ||= "rusky:#{hook_name.gsub('-', '_')}"
     end
 
-    def define_task(commands)
+    def define_task
       # prioritize existing user hook
       if Rake::Task.task_defined? rake_task_name
         puts "rusky > skip creatig a new rake task since the task for #{hook_name} is already defined."
         return
       end
+
+      commands = setting&.commands_for hook_name
 
       task "#{rake_task_name}" do
         if commands.empty?

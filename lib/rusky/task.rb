@@ -11,15 +11,14 @@ module Rusky
     end
 
     def initialize(base=nil)
-      cwd = base || Rusky.current_work_directory_name
-      rusky_setting_file_path = File.join(cwd, '.rusky')
-      @yaml = File.exists?(rusky_setting_file_path) ? YAML.load_file(File.join(cwd, '.rusky')) : Hash.new([])
+      @cwd = base || Rusky.current_work_directory_name
     end
 
     def install
+      setting = Rusky::Setting.new(cwd)
+
       Rusky::HOOKS.each do |hook_name|
-        hook = Rusky::Hook.new hook_name, base
-        hook.define_task @yaml[hook_name]
+        Rusky::Hook.new(hook_name, @cwd, setting).define_task
       end
     end
   end
