@@ -27,7 +27,7 @@ module Rusky
   ].freeze
 
   def self.install
-    cwd = `lsof -p #{Process.ppid} | grep cwd`.split(" ").last
+    cwd = current_work_directory_name
 
     git_path = File.join(cwd, '.git')
     if !File.exists? git_path
@@ -41,7 +41,7 @@ module Rusky
     end
 
     HOOKS.each do |hook_name|
-      create_hook(hook_name, hook_path, cwd)
+      Rusky::Hook.new(hook_name, cwd).create
     end
 
     rusky_setting_file_path = File.join(cwd, '.rusky')
@@ -55,67 +55,11 @@ module Rusky
     puts "unexpected error happened: #{e.inspect}"
   end
 
-  def self.create_hook(hook_name, hook_path, cwd)
-    script = get_hook_script(hook_name, cwd)
-    filename = File.join(hook_path, hook_name)
-
-    if File.exists? filename
-      if File.read(filename).include? 'rusky'
-        puts "rusky > overwriting #{hook_name} hook script because also existing one is created by rusky."
-        write(filename, script)
-      else
-        puts "rusky > skip creating #{hook_name} hook script because existing one is created by you or other tool."
-      end
-    else
-      puts "rusky > creating #{hook_name} hook script..."
-      write(filename, script)
-    end
-  end
-
-  def self.write(filename, script)
-    File.write filename, script
-    FileUtils.chmod(0755, filename)
-  end
-
-  def self.get_hook_script(hook_name, cwd)
-    no_verify_message = if hook_name == 'prepare-commit-msg'
-                          '(cannot be bypassed with --no-verify due to Git specs)'
-                        else
-                          '(add --no-verify to bypass)'
-                        end
-
-    rake_task_name = "rusky:#{hook_name.gsub('-', '_')}"
-
-    <<~EOS
-      #!/bin/sh
-      #rusky #{Rusky::VERSION}
-      has_hook_script () {
-        [ -f .rusky ] && cat .rusky | grep -q "$1:"
-      }
-      cd "#{cwd}"
-      # Check if #{hook_name} script is defined, skip if not
-      has_hook_script #{hook_name} || exit 0
-
-      # Export Git hook params
-      export GIT_PARAMS="$*"
-      # Run command
-      echo "rusky > #{hook_name} Git hook is running"
-      echo "rusky > bundle exec rake #{rake_task_name}"
-      echo
-      bundle exec rake #{rake_task_name} || {
-        echo
-        echo "rusky > #{hook_name} Git hook failed #{no_verify_message}"
-        exit 1
-      }
-    EOS
-  end
-
-
   def self.uninstall
-    cwd = `lsof -p #{Process.ppid} | grep cwd`.split(" ").last
+    cwd = current_work_directory_name
 
     HOOKS.each do |hook_name|
-      remove_hook(cwd, hook_name)
+      Rusky::Hook.new(hook_name, cwd).delete
     end
 
     rusky_setting_file_path = File.join(cwd, '.rusky')
@@ -128,11 +72,7 @@ module Rusky
     puts "rusky > Thank you for using rusky!"
   end
 
-  def self.remove_hook(cwd, hook_name)
-    filename = File.join(cwd, '.git', 'hooks', hook_name)
-    if File.exists?(filename) && File.read(filename).include?('rusky')
-      puts "rusky > removing #{hook_name} hook script..."
-      File.delete(filename)
-    end
+  def self.current_work_directory_name
+    cwd = `lsof -p #{Process.ppid} | grep cwd`.split(" ").last
   end
 end
