@@ -9,7 +9,7 @@ module Rusky
     def initialize(cwd)
       @cwd = cwd
       @filename = File.join(@cwd, FILENAME)
-      @yaml = exists? ? YAML.load_file(File.join(@filename)) : Hash.new([])
+      @yaml = exists? ? YAML.load_file(filename) : Hash.new([])
     end
 
     def create
@@ -27,6 +27,8 @@ module Rusky
     def commands_for(hook_name)
       @yaml[hook_name]
     end
+
+    private
 
     def exists?
       @exists ||= File.exists? filename
