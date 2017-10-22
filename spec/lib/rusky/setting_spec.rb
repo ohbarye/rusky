@@ -64,7 +64,7 @@ RSpec.describe Rusky::Setting do
     context 'when commands are not defined in the setting file' do
       subject { setting.commands_for('post-commit') }
 
-      it 'returns an array of commands' do
+      it 'returns nil' do
         expect(subject).to be_nil
       end
     end
