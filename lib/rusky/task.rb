@@ -14,8 +14,8 @@ module Rusky
     end
 
     def install
-      setting = Rusky::Setting.new(cwd)
-      Rusky::Hooks.new(cwd, setting).define_tasks
+      setting = Rusky::Setting.new(@cwd)
+      Rusky::Hooks.new(@cwd, setting).define_tasks
     end
   end
 end

@@ -1,4 +1,5 @@
 require 'rusky'
+require 'rusky/hook'
 require 'fileutils'
 
 module Rusky
