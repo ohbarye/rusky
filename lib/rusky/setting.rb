@@ -15,14 +15,18 @@ module Rusky
     end
 
     def create
-      puts "rusky > creating .rusky file..."
-      File.write(filename, '')
+      if !exists?
+        puts "rusky > creating .rusky file..."
+        File.write(filename, '')
+      end
       self
     end
 
     def delete
-      puts "rusky > deleting .rusky file..."
-      File.delete(filename)
+      if exists?
+        puts "rusky > deleting .rusky file..."
+        File.delete(filename)
+      end
       self
     end
 
