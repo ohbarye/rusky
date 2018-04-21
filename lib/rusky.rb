@@ -1,5 +1,8 @@
-require 'rusky/version'
 require 'rusky/cli'
+require 'rusky/hook'
+require 'rusky/hooks'
+require 'rusky/setting'
+require 'rusky/version'
 require 'yaml'
 require 'fileutils'
 
@@ -42,6 +45,6 @@ module Rusky
   end
 
   def self.processable?(cwd)
-    !File.exists? File.join(cwd, '.git')
+    File.exists? File.join(cwd, '.git')
   end
 end

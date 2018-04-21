@@ -33,7 +33,7 @@ module Rusky
     def initialize(cwd, setting=nil)
       @cwd = cwd
       @dir_name = File.join(cwd, '.git', 'hooks')
-      @hooks = HOOK_NAMES.each { |hook_name| Rusky::Hook.new(hook_name, cwd, setting) }
+      @hooks = HOOK_NAMES.map { |hook_name| Rusky::Hook.new(hook_name, cwd, setting) }
     end
 
     def create
@@ -49,6 +49,8 @@ module Rusky
     def define_tasks
       hooks.each(&:define_task)
     end
+
+    private
 
     def exists?
       @exists ||= File.exists? dir_name
