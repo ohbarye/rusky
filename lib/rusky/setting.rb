@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 require 'yaml'
 
 module Rusky
   class Setting
     attr_reader :cwd, :filename
 
-    FILENAME = '.rusky'.freeze
+    FILENAME = '.rusky'
 
     def initialize(cwd)
       @cwd = cwd
