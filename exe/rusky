@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
 require 'rusky'
+require 'rusky/cli'
 
 Rusky::CLI.start(ARGV)
