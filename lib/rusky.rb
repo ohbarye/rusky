@@ -1,4 +1,3 @@
-require 'rusky/cli'
 require 'rusky/hook'
 require 'rusky/hooks'
 require 'rusky/setting'

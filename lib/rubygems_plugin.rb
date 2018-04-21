@@ -3,7 +3,7 @@
 require "rubygems"
 require "rusky"
 
-Gem.pre_install do |installer|
+Gem.post_install do |installer|
   Rusky.install
 end
 

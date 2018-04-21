@@ -1,6 +1,11 @@
 # frozen_string_literal: true
 
-require 'rake'
+begin
+  require 'rake'
+rescue LoadError
+  # When this file is loaded at gem installation, it might not be able to
+  # load rake due to the order of installation. But it's ignorable.
+end
 require 'yaml'
 require 'fileutils'
 
