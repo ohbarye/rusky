@@ -28,9 +28,9 @@ RSpec.describe Rusky::Hook do
       end
     end
 
-    context 'when the git hook file exists' do
+    context 'when the git hook file exist' do
       before do
-        allow(File).to receive(:exists?).with(filename).and_return(true)
+        allow(File).to receive(:exist?).with(filename).and_return(true)
       end
 
       context 'when the git hook file is for rusky' do
@@ -77,9 +77,9 @@ RSpec.describe Rusky::Hook do
       end
     end
 
-    context 'when the git hook file exists' do
+    context 'when the git hook file exist' do
       before do
-        allow(File).to receive(:exists?).with(filename).and_return(true)
+        allow(File).to receive(:exist?).with(filename).and_return(true)
       end
 
       context 'when the git hook file is for rusky' do

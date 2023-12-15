@@ -28,7 +28,7 @@ RSpec.describe Rusky::Setting do
 
     context 'when the setting hook file does not exist' do
       before do
-        allow(File).to receive(:exists?).with(filename).and_return(false)
+        allow(File).to receive(:exist?).with(filename).and_return(false)
       end
 
       it 'creates the setting file' do
@@ -39,7 +39,7 @@ RSpec.describe Rusky::Setting do
 
     context 'when the .rusky hook file exists' do
       before do
-        allow(File).to receive(:exists?).with(filename).and_return(true)
+        allow(File).to receive(:exist?).with(filename).and_return(true)
       end
 
       it 'does not touch the setting file' do
@@ -62,7 +62,7 @@ RSpec.describe Rusky::Setting do
 
     context 'when the setting hook file does not exist' do
       before do
-        allow(File).to receive(:exists?).with(filename).and_return(false)
+        allow(File).to receive(:exist?).with(filename).and_return(false)
       end
 
       it 'does not delete the setting file' do
@@ -73,7 +73,7 @@ RSpec.describe Rusky::Setting do
 
     context 'when the .rusky hook file exists' do
       before do
-        allow(File).to receive(:exists?).with(filename).and_return(true)
+        allow(File).to receive(:exist?).with(filename).and_return(true)
       end
 
       it 'deletes the setting file' do
@@ -85,7 +85,7 @@ RSpec.describe Rusky::Setting do
 
   describe '#commands_for' do
     before do
-      allow(File).to receive(:exists?).with(filename).and_return true
+      allow(File).to receive(:exist?).with(filename).and_return true
     end
 
     context 'when commands are defined in the setting file' do

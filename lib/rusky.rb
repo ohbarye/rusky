@@ -40,10 +40,10 @@ module Rusky
   end
 
   def self.current_work_directory_name
-    `lsof -p #{Process.ppid} | grep cwd`.split(" ").last
+    Dir.pwd
   end
 
   def self.processable?(cwd)
-    File.exists? File.join(cwd, '.git')
+    File.exist? File.join(cwd, '.git')
   end
 end

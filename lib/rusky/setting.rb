@@ -37,8 +37,7 @@ module Rusky
     private
 
     def exists?
-      @exists ||= File.exists? filename
+      @exists ||= File.exist? filename
     end
   end
 end
-

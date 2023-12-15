@@ -80,7 +80,7 @@ module Rusky
     end
 
     def exists?
-      @exists ||= File.exists?(filename)
+      @exists ||= File.exist?(filename)
     end
 
     def is_rusky_hook?
@@ -126,4 +126,3 @@ module Rusky
     end
   end
 end
-

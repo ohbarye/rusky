@@ -55,7 +55,7 @@ module Rusky
     private
 
     def exists?
-      @exists ||= File.exists? dir_name
+      @exists ||= File.exist? dir_name
     end
 
     def mkdir
